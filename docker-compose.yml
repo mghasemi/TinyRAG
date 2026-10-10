@@ -1,0 +1,36 @@
+version: "3.9"
+
+volumes:
+  sqlite_data:
+  chromadb_data:
+  uploads:
+
+services:
+  backend:
+    build: ./backend
+    container_name: tinyrag-backend
+    ports:
+      - "8500:8500"
+    environment:
+      - DATABASE_URL=sqlite:///app/data/rag.db
+      - CHROMA_PATH=/app/data/chroma
+      - UPLOAD_DIR=/app/uploads
+      - LLM_BASE_URL=${LLM_BASE_URL:-https://api.openai.com/v1}
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
+    volumes:
+      - sqlite_data:/app/data
+      - uploads:/app/uploads
+      - chromadb_data:/app/data/chroma
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: tinyrag-frontend
+    ports:
+      - "3500:3500"
+    environment:
+      - VITE_API_URL=
+    depends_on:
+      - backend
+    restart: unless-stopped

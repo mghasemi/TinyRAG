@@ -24,44 +24,44 @@ cd TinyRAG
 
 # Optional: preconfigure an LLM provider (defaults to OpenAI gpt-4o-mini)
 cat > .env <<'EOF'
-LLM_BASE_URL=http://192.168.1.81:1234/v1
-LLM_API_KEY=not-needed
-LLM_MODEL=ornith-1.0-35b_moe
+LLM_BASE_URL=http://you-model-provider
+LLM_API_KEY=your-api-key
+LLM_MODEL=model-id
 EOF
 
 docker compose up -d --build
 ```
 
-| Service   | URL                      |
-|-----------|--------------------------|
-| Frontend  | http://localhost:3500    |
-| Backend   | http://localhost:8500    |
-| API docs  | http://localhost:8500/docs |
+| Service  | URL                        |
+| -------- | -------------------------- |
+| Frontend | http://localhost:3500      |
+| Backend  | http://localhost:8500      |
+| API docs | http://localhost:8500/docs |
 
 ## Documentation
 
-| Doc | Contents |
-|-----|----------|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System overview, modules, design decisions |
-| [docs/API.md](docs/API.md) | Complete REST API reference |
-| [docs/DATA_FLOW.md](docs/DATA_FLOW.md) | Ingestion, chunking, retrieval, RAG algorithms |
-| [docs/UI.md](docs/UI.md) | Frontend components & behavior |
-| [docs/MCP.md](docs/MCP.md) | MCP server + AI agent integration |
-| [docs/OPERATIONS.md](docs/OPERATIONS.md) | Deployment, config, troubleshooting |
+| Doc                                         | Contents                                       |
+| ------------------------------------------- | ---------------------------------------------- |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System overview, modules, design decisions     |
+| [docs/API.md](docs/API.md)                   | Complete REST API reference                    |
+| [docs/DATA_FLOW.md](docs/DATA_FLOW.md)       | Ingestion, chunking, retrieval, RAG algorithms |
+| [docs/UI.md](docs/UI.md)                     | Frontend components & behavior                 |
+| [docs/MCP.md](docs/MCP.md)                   | MCP server + AI agent integration              |
+| [docs/OPERATIONS.md](docs/OPERATIONS.md)     | Deployment, config, troubleshooting            |
 
 ## Tech Stack
 
-| Layer          | Technology                                     |
-|----------------|------------------------------------------------|
-| Backend        | Python 3.11, FastAPI, Uvicorn                  |
-| Frontend       | React 18, TypeScript, Tailwind CSS, Vite       |
-| Vector DB      | ChromaDB (persistent, multi-collection)        |
-| Relational     | SQLite3 via SQLAlchemy ORM                     |
-| Embeddings     | sentence-transformers/all-MiniLM-L6-v2 (384-d) |
-| PDF parsing    | PyMuPDF (fitz)                                 |
-| LLM            | Any OpenAI-compatible API (configurable)       |
-| Orchestration  | Docker Compose                                 |
-| Agent bridge   | MCP server (mcp_server.py)                     |
+| Layer         | Technology                                     |
+| ------------- | ---------------------------------------------- |
+| Backend       | Python 3.11, FastAPI, Uvicorn                  |
+| Frontend      | React 18, TypeScript, Tailwind CSS, Vite       |
+| Vector DB     | ChromaDB (persistent, multi-collection)        |
+| Relational    | SQLite3 via SQLAlchemy ORM                     |
+| Embeddings    | sentence-transformers/all-MiniLM-L6-v2 (384-d) |
+| PDF parsing   | PyMuPDF (fitz)                                 |
+| LLM           | Any OpenAI-compatible API (configurable)       |
+| Orchestration | Docker Compose                                 |
+| Agent bridge  | MCP server (mcp_server.py)                     |
 
 ## Repository Layout
 

@@ -1,5 +1,10 @@
 # Tiny RAG
 
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](backend/Dockerfile)
+[![Node.js](https://img.shields.io/badge/Node.js-20-43861d?logo=nodejs&logoColor=white)](frontend/Dockerfile)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)](docker-compose.yml)
+
 A lightweight, self-hosted **Retrieval-Augmented Generation (RAG)** system:
 upload documents, ask questions, get grounded answers. Built with FastAPI,
 React, ChromaDB, and Docker Compose.
@@ -94,3 +99,13 @@ TinyRAG/
 │           └── SettingsSection.tsx
 └── docs/                      # detailed documentation
 ```
+
+## Agent notes
+
+Notes for AI agents working on this repo (moved out of agent memory, 2026-10):
+
+- **Vite proxy target**: the frontend dev server proxies API calls to `backend:8500` — a Docker *service name*, not localhost. Outside Compose these requests fail by design.
+- **Runtime LLM settings** live in `app/settings.py`, persisted as `llm_config.json` on a volume; changes from the UI survive restarts without rebuilds.
+- **SSE streaming**: use FastAPI `StreamingResponse`, *not* `EventSourceResponse` — the latter double-prefixes `data:` lines and breaks the client parser.
+- **ChromaDB document deletion pattern**: no single delete-by-filename call; do `get(where={"filename": ...}) → collect IDs → delete(ids=...)` (implemented as `delete_by_filename`).
+- **Dockerfiles** pre-install CPU-only PyTorch (~200 MB) to keep the image small and avoid CUDA bloat.
